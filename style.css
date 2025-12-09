@@ -1,0 +1,123 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: sans-serif;
+    user-select: none;
+}
+
+.metronome {
+    width: 200px;
+    height: 200px;
+    border-bottom: 5px solid #333;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.metronome-arm {
+    width: 4px;
+    height: 180px;
+    background-color: #555;
+    position: absolute;
+    bottom: 0;
+    transform-origin: bottom center;
+    transition: transform 0.1s linear;
+}
+
+/* A simple triangle for the pendulum head */
+.metronome-arm::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 25px solid #333;
+}
+
+
+.controls {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.bpm-display {
+    font-size: 24px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#bpm-input {
+    width: 70px;
+    font-size: 22px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+/* Hide the default arrows for number input */
+#bpm-input::-webkit-outer-spin-button,
+#bpm-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#bpm-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#bpm-value {
+    font-weight: normal; /* Changed from bold */
+}
+
+.slider {
+    width: 280px;
+}
+
+.time-signature-btns {
+    display: flex;
+    gap: 10px;
+}
+
+.ts-btn {
+    padding: 8px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.ts-btn.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+#play-pause-btn {
+    padding: 10px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+#play-pause-btn.playing {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}

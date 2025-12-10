@@ -30,9 +30,9 @@ function scheduleTick(isStrongBeat) {
     const gain = audioContext.createGain();
 
     const frequency = isStrongBeat ? 880 : 440; // High pitch for strong beat, lower for weak
-    osc.frequency.setValueAtTime(frequency, audioContext.currentTime);
-    gain.gain.setValueAtTime(1, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+    osc.frequency.setValueAtTime(frequency, nextBeatTime);
+    gain.gain.setValueAtTime(1, nextBeatTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, nextBeatTime + 0.05);
 
     osc.connect(gain);
     gain.connect(audioContext.destination);
@@ -88,18 +88,31 @@ timeSignatureBtns.forEach(button => {
 });
 
 playPauseBtn.addEventListener('click', () => {
-    initAudio(); // Initialize audio on first user interaction
+    if (!audioContext) {
+        initAudio();
+    }
 
     isPlaying = !isPlaying;
 
     if (isPlaying) {
-        playPauseBtn.textContent = 'Pause';
-        playPauseBtn.classList.add('playing');
-        
-        currentBeatInMeasure = 0;
-        nextBeatTime = audioContext.currentTime;
-        scheduler();
+        // Function to start the scheduler
+        const startScheduler = () => {
+            playPauseBtn.textContent = 'Pause';
+            playPauseBtn.classList.add('playing');
+            currentBeatInMeasure = 0;
+            nextBeatTime = audioContext.currentTime + 0.1; // Add a small lookahead buffer
+            scheduler();
+        };
+
+        // Check if context is suspended and resume it if needed,
+        // THEN start the scheduler.
+        if (audioContext.state === 'suspended') {
+            audioContext.resume().then(startScheduler);
+        } else {
+            startScheduler();
+        }
     } else {
+        // Stop playing
         playPauseBtn.textContent = 'Play';
         playPauseBtn.classList.remove('playing');
         

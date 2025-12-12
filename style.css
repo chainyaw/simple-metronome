@@ -10,36 +10,37 @@ body {
 }
 
 .metronome {
-    width: 200px;
-    height: 200px;
-    border-bottom: 5px solid #333;
+    width: 450px;
+    height: 450px;
+    border-bottom: 12px solid #333;
     position: relative;
     display: flex;
     justify-content: center;
 }
 
 .metronome-arm {
-    width: 4px;
-    height: 180px;
+    width: 9px;
+    height: 405px;
     background-color: #555;
     position: absolute;
     bottom: 0;
     transform-origin: bottom center;
-    transition: transform 0.1s linear;
+    /* Default duration for 120bpm, will be updated by JS */
+    transition: transform 0.5s linear;
 }
 
 /* A simple triangle for the pendulum head */
 .metronome-arm::after {
     content: '';
     position: absolute;
-    top: 20px;
+    top: 45px; /* Adjusted for new size */
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-top: 25px solid #333;
+    border-left: 33px solid transparent;
+    border-right: 33px solid transparent;
+    border-top: 56px solid #333;
 }
 
 

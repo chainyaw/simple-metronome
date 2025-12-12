@@ -64,7 +64,16 @@ function updateBpm(newValue) {
     bpm = Math.max(40, Math.min(240, newValue)); // Clamp value between 40 and 240
     bpmSliderElement.value = bpm;
     bpmInputElement.value = bpm;
+
+    // Synchronize animation speed with BPM
+    const secondsPerBeat = 60.0 / bpm;
+    metronomeArm.style.transitionDuration = `${secondsPerBeat}s`;
 }
+
+// --- Initial Setup ---
+// Set initial animation speed on load
+updateBpm(bpm);
+
 
 // --- Event Listeners ---
 bpmSliderElement.addEventListener('input', (e) => {

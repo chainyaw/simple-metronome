@@ -1,4 +1,4 @@
-const CACHE_NAME = 'metronome-cache-v1';
+const CACHE_NAME = 'metronome-cache-v2';
 const urlsToCache = [
     '/',
     '/index.html',
@@ -16,6 +16,23 @@ self.addEventListener('install', event => {
                 console.log('Opened cache');
                 return cache.addAll(urlsToCache);
             })
+    );
+});
+
+// Activate event: clean up old caches
+self.addEventListener('activate', event => {
+    const cacheWhitelist = [CACHE_NAME];
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    if (cacheWhitelist.indexOf(cacheName) === -1) {
+                        console.log('Deleting old cache:', cacheName);
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        })
     );
 });
 
